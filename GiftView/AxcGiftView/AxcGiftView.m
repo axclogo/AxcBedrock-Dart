@@ -37,7 +37,10 @@ AxcGiftOperationCellDelegate
     self.showMaxGiftViewHeight = 60.f;
     self.arrangementType = AxcGiftViewArrangementTypeTopToBottom;
     self.giftShowTime = 5.f;
-    self.giftAnimationTime = 0.5f;
+    self.giftEnterAnimationTime =
+    self.giftQuitAnimationTime  = 0.5;
+    self.giftEnterAnimationOptions =
+    self.giftQuitAnimationOptions = UIViewAnimationOptionCurveEaseInOut;
     self.enterAnimationStyle = AxcGiftOperationAnimationStyleLeft;
     self.quitAnimationStyle = AxcGiftOperationAnimationStyleLeft;
     self.is_gradually = YES;
@@ -55,9 +58,9 @@ AxcGiftOperationCellDelegate
     if (operationCell) {    // 当前有礼物在展示
         [operationCell resetTimer]; // 重置计时器
         // 回调连击事件
+        // 获取连击数model
+        id comboGift = [self.dataSource axc_giftView:self comboCountWithGifts:@[operationCell.gift,gift]];
         if ([self.delegate respondsToSelector:@selector(axc_giftView:comboWithGift:showView:)]) {  // 有实现
-            // 获取连击数
-            id comboGift = [self.dataSource axc_giftView:self comboCountWithGifts:@[operationCell.gift,gift]];
             // 更改连击视图
             [self.delegate axc_giftView:self comboWithGift:comboGift showView:operationCell.giftAnimationView];
         }
@@ -66,23 +69,20 @@ AxcGiftOperationCellDelegate
         if (operationCell) {    // 如果有空位
             // 向代理索要view视图
             operationCell.giftAnimationView = [self.dataSource axc_giftView:self giftViewWithGift:gift identifier:identifier];
-            // 展示时间
-            CGFloat showTime = self.giftShowTime;
-            if ([self.dataSource respondsToSelector:@selector(axc_giftView:showTimeWithGift:identifier:)]) {
-                showTime = [self.dataSource axc_giftView:self showTimeWithGift:operationCell.giftAnimationView
-                                              identifier:identifier];
-            }   // 给予展示时间
-            operationCell.showTime = showTime;
+            // 向代理索要已设置的参数
+            [self delegateSetting:operationCell gift:gift identifier:identifier];
+            
+            operationCell.showTime = self.giftShowTime;     // 展示时间
+            operationCell.is_gradually = self.is_gradually; // 渐变
             // 出入场枚举
             operationCell.enterAnimationStyle = self.enterAnimationStyle;
             operationCell.quitAnimationStyle = self.quitAnimationStyle;
-            // 渐入渐出
-            if ([self.delegate respondsToSelector:@selector(axc_giftView:graduallyWithGift:identifier:)]) {
-                self.is_gradually = [self.delegate axc_giftView:self graduallyWithGift:gift identifier:identifier];
-            }
-            operationCell.is_gradually = self.is_gradually;
-            // 设置动画时间
-            operationCell.giftAnimationTime = self.giftAnimationTime;
+            // 出入场动画时间
+            operationCell.giftEnterAnimationTime = self.giftEnterAnimationTime;
+            operationCell.giftQuitAnimationTime = self.giftQuitAnimationTime;
+            // 出入场动画延迟
+            operationCell.giftEnterAnimationDelay = self.giftEnterAnimationDelay;
+            operationCell.giftQuitAnimationDelay = self.giftQuitAnimationDelay;
             // 礼物相关
             operationCell.identifier = identifier;
             operationCell.gift = gift;
@@ -107,13 +107,57 @@ AxcGiftOperationCellDelegate
         }
     }
 }
+#pragma mark - 封装
+- (void)delegateSetting:(AxcGiftOperationCell *)operationCell gift:(id )gift identifier:(NSString *)identifier{
+    // 展示时间
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:showTimeWithGift:identifier:)]) {
+        self.giftShowTime = [self.delegate axc_giftView:self showTimeWithGift:operationCell.giftAnimationView
+                                             identifier:identifier];
+    }
+    // 渐入渐出
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:graduallyWithGift:identifier:)]) {
+        self.is_gradually = [self.delegate axc_giftView:self graduallyWithGift:gift identifier:identifier];
+    }
+    // 动画时间
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:giftAnimationTimeWithState:gift:identifier:)]) {
+        // 入场动画时间
+        self.giftEnterAnimationTime = [self.delegate axc_giftView:self
+                                       giftAnimationTimeWithState:AxcGiftOperationAnimationStateEnter
+                                                             gift:gift identifier:identifier];
+        // 出场动画时间
+        self.giftQuitAnimationTime = [self.delegate axc_giftView:self
+                                      giftAnimationTimeWithState:AxcGiftOperationAnimationStateQuit
+                                                            gift:gift identifier:identifier];
+    }
+    // 动画时间曲线
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:giftAnimationOptionsWithState:gift:identifier:)]) {
+        // 入场动画时间曲线
+        self.giftEnterAnimationOptions = [self.delegate axc_giftView:self
+                                       giftAnimationOptionsWithState:AxcGiftOperationAnimationStateEnter
+                                                                gift:gift identifier:identifier];
+        // 出场动画时间曲线
+        self.giftQuitAnimationOptions = [self.delegate axc_giftView:self
+                                      giftAnimationOptionsWithState:AxcGiftOperationAnimationStateQuit
+                                                               gift:gift identifier:identifier];
+    }
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:giftAnimationDelayWithState:gift:identifier:)]) {
+        // 入场动画时间时间
+        self.giftEnterAnimationDelay = [self.delegate axc_giftView:self
+                                       giftAnimationDelayWithState:AxcGiftOperationAnimationStateEnter
+                                                              gift:gift identifier:identifier];
+        // 出场动画延迟时间
+        self.giftQuitAnimationDelay = [self.delegate axc_giftView:self
+                                      giftAnimationDelayWithState:AxcGiftOperationAnimationStateQuit
+                                                             gift:gift identifier:identifier];
+    }
+}
 #pragma mark - 视图操作
 // 获取一个空位视图
 - (AxcGiftOperationCell *)emptyOperationCellWithType:(AxcGiftViewArrangementType )type{
     AxcGiftOperationCell *_emptyOperationCell = nil;
     BOOL sequence = (type == AxcGiftViewArrangementTypeTopToBottom);
     for (AxcGiftOperationCell *cell in sequence ? [self visibleCells]: [[self visibleCells] reverseObjectEnumerator]) {
-        if (!cell.identifier && !cell.is_use) { // 无id并且未使用
+        if (!cell.identifier) { // 无id
             _emptyOperationCell = cell;break;
         }
     }
@@ -163,10 +207,16 @@ AxcGiftOperationCellDelegate
 }
 #pragma mark - CellDelegate
 // 展示即将完成
-- (void)giftShowWillComplete:(AxcGiftOperationCell *)cell{
-    // 回调即将消失
+- (void)giftShowWillComplete:(AxcGiftOperationCell *)cell{ // 回调即将消失
     if ([self.delegate respondsToSelector:@selector(axc_giftView:giftWillDisappearWithShowView:gift:identifier:)]) {
         [self.delegate axc_giftView:self giftWillDisappearWithShowView:cell.giftAnimationView gift:cell.gift
+                         identifier:cell.identifier];
+    }
+}
+// 展示中
+-(void)giftShowWillDidComplete:(AxcGiftOperationCell *)cell{ // 回调正在展示
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:giftWillDidAppearWithShowView:gift:identifier:)]) {
+        [self.delegate axc_giftView:self giftWillDidAppearWithShowView:cell.giftAnimationView gift:cell.gift
                          identifier:cell.identifier];
     }
 }
@@ -177,7 +227,12 @@ AxcGiftOperationCellDelegate
     }
     return CGRectZero;
 }
-- (void)giftShowComplete{   // 展示完成
+- (void)giftShowComplete:(AxcGiftOperationCell *)cell{   // 展示完成
+    // 回调已经消失
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:giftWillDidDisappearWithShowView:gift:identifier:)]) {
+        [self.delegate axc_giftView:self giftWillDidDisappearWithShowView:cell.giftAnimationView gift:cell.gift
+                         identifier:cell.identifier];
+    }
     // 从缓存中取一个，使用队列形式，取出第一个
     NSDictionary *firstCache = self.operationCache.firstObject;
     if (firstCache) {   // 如果缓存队列中有，则进行
@@ -208,6 +263,15 @@ AxcGiftOperationCellDelegate
     return [self.visibleCells objectAtIndex:idx];
 }
 #pragma mark - TableView_Delegate & Datasource
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([self.delegate respondsToSelector:@selector(axc_giftView:clickWithShowView:gift:identifier:)]) {
+        AxcGiftOperationCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (cell.is_use) [self.delegate axc_giftView:self  // 如果cell处于可使用状态
+                                   clickWithShowView:cell.giftAnimationView
+                                                gift:cell.gift
+                                          identifier:cell.identifier];
+    }
+}
 - (CGFloat )tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return self.showMaxGiftViewHeight;
 }
@@ -217,6 +281,9 @@ AxcGiftOperationCellDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     AxcGiftOperationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"axc"];
     cell.delegate = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundView.backgroundColor =
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 #pragma mark - 懒加载
@@ -241,8 +308,7 @@ AxcGiftOperationCellDelegate
         _tableView.separatorStyle = UITableViewCellEditingStyleNone;     //让tableview不显示分割线
         _tableView.showsVerticalScrollIndicator =
         _tableView.showsHorizontalScrollIndicator = NO;
-        [_tableView registerNib:[UINib nibWithNibName:@"AxcGiftOperationCell" bundle:nil]
-         forCellReuseIdentifier:@"axc"];
+        [_tableView registerClass:[AxcGiftOperationCell class] forCellReuseIdentifier:@"axc"];
         [self addSubview:_tableView];
     }
     return _tableView;

@@ -30,7 +30,9 @@ typedef enum : NSUInteger {
 // 展示即将完成
 - (void)giftShowWillComplete:(AxcGiftOperationCell *)cell;
 // 展示完成
-- (void)giftShowComplete;
+- (void)giftShowComplete:(AxcGiftOperationCell *)cell;
+// 正在展示
+- (void)giftShowWillDidComplete:(AxcGiftOperationCell *)cell;
 // 自定义动画位置回调
 - (CGRect )customAnimationWithState:(AxcGiftOperationAnimationState )state gift:(id)gift identifier:(NSString *)identifier;
 @end
@@ -49,7 +51,14 @@ typedef enum : NSUInteger {
 // 展示时间
 @property(nonatomic,assign)CGFloat showTime;
 // 礼物动画时间
-@property(nonatomic,assign)CGFloat giftAnimationTime;
+@property(nonatomic,assign)CGFloat giftEnterAnimationTime;
+@property(nonatomic,assign)CGFloat giftQuitAnimationTime;
+// 礼物动画曲线
+@property(nonatomic,assign)UIViewAnimationOptions giftEnterAnimationOptions;
+@property(nonatomic,assign)UIViewAnimationOptions giftQuitAnimationOptions;
+// 礼物动画延迟
+@property(nonatomic,assign)CGFloat giftEnterAnimationDelay;
+@property(nonatomic,assign)CGFloat giftQuitAnimationDelay;
 // 入场动画位置
 @property(nonatomic,assign)AxcGiftOperationAnimationStyle enterAnimationStyle;
 // 出场动画位置

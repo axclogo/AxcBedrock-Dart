@@ -22,7 +22,6 @@
 		CDB0E2492507182D00383DCE /* GiftViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB0E2482507182D00383DCE /* GiftViewUITests.m */; };
 		CDB0E2592507184700383DCE /* AxcGiftView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB0E2582507184700383DCE /* AxcGiftView.m */; };
 		CDB0E26C2507865600383DCE /* AxcGiftOperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB0E26A2507865600383DCE /* AxcGiftOperationCell.m */; };
-		CDB0E26D2507865600383DCE /* AxcGiftOperationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB0E26B2507865600383DCE /* AxcGiftOperationCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +71,6 @@
 		CDB0E2582507184700383DCE /* AxcGiftView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AxcGiftView.m; sourceTree = "<group>"; };
 		CDB0E2692507865600383DCE /* AxcGiftOperationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AxcGiftOperationCell.h; sourceTree = "<group>"; };
 		CDB0E26A2507865600383DCE /* AxcGiftOperationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AxcGiftOperationCell.m; sourceTree = "<group>"; };
-		CDB0E26B2507865600383DCE /* AxcGiftOperationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AxcGiftOperationCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,7 +193,6 @@
 			children = (
 				CDB0E2692507865600383DCE /* AxcGiftOperationCell.h */,
 				CDB0E26A2507865600383DCE /* AxcGiftOperationCell.m */,
-				CDB0E26B2507865600383DCE /* AxcGiftOperationCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -303,7 +300,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDB0E26D2507865600383DCE /* AxcGiftOperationCell.xib in Resources */,
 				CDA1107E2508D041007FBFFE /* ShowGiftView.xib in Resources */,
 				CDB0E2312507182D00383DCE /* LaunchScreen.storyboard in Resources */,
 				CDB0E22E2507182D00383DCE /* Assets.xcassets in Resources */,
