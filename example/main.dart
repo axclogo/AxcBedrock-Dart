@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 import 'package:axc_bedrock/axc_bedrock.dart';
-import 'package:axc_bedrock/extension/dart/list_ex.dart';
-import 'package:axc_bedrock/extension/dart/map_ex.dart';
+// import 'package:axc_bedrock/extension/dart_lib/list_ex.dart';
+// import 'package:axc_bedrock/extension/dart_lib/map_ex.dart';
 
 void main() {
   // stringToApi();
@@ -26,8 +26,8 @@ void stringToApi() {
   print("AxcLogo".axc.keepPrefix(3));
   print("AxcLogo".axc.keepPrefix(3, suffix: "..."));
 
-  print("AxcLogo".axc.removePrefixWithCount(3));
-  print("AxcLogo".axc.removePrefixWithCount(0));
+  print("AxcLogo".axc.removePrefix(count: 1));
+  print("AxcLogo".axc.removePrefix(count: 0));
   print("AxcLogo".axc.removePrefixWithString("Axc"));
   print("AxcLogo".axc.removePrefixWithString("B"));
 

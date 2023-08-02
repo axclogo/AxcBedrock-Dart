@@ -14,7 +14,7 @@ extension StringExtension on String {
   }
 }
 
-/// 数据转换
+// MARK: 数据转换
 extension StringToTransform on AxcStringSpace {
   /// 转换为int类型，[radix]为进制，默认为10
   int toInt({int? radix}) {
@@ -22,7 +22,7 @@ extension StringToTransform on AxcStringSpace {
   }
 
   /// 转换为int可选类型，[radix]为进制，默认为10
-  int? toInt_optional({int? radix}) {
+  int? asInt({int? radix}) {
     return int.tryParse(base, radix: radix);
   }
 
@@ -32,17 +32,17 @@ extension StringToTransform on AxcStringSpace {
   }
 
   /// 转换为Double可选类型
-  double? toDouble_optional() {
+  double? asDouble() {
     return double.tryParse(base);
   }
 
   /// 转换成Bool类型
   bool toBool() {
-    return toBool_optional() ?? false;
+    return asBool() ?? false;
   }
 
   /// 转换成Bool可选类型
-  bool? toBool_optional() {
+  bool? asBool() {
     switch (base) {
       case "true":
         return true;
@@ -74,7 +74,7 @@ extension StringToTransform on AxcStringSpace {
   }
 }
 
-/// 属性 & Api
+// MARK: - 属性 & Api
 extension StringToApi on AxcStringSpace {
   // MARK: ================================头部操作================================
 
@@ -102,7 +102,7 @@ extension StringToApi on AxcStringSpace {
   }
 
   /// 去掉头部多少位字符
-  String removePrefixWithCount(int count) {
+  String removePrefix({int count = 0}) {
     if ((count <= base.length) || (count > 0)) {
       return base.substring(count);
     }
