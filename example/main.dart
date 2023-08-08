@@ -1,12 +1,22 @@
-// import 'package:flutter/material.dart';
 import 'package:axc_bedrock/axc_bedrock.dart';
-// import 'package:axc_bedrock/extension/dart_lib/list_ex.dart';
-// import 'package:axc_bedrock/extension/dart_lib/map_ex.dart';
 
 void main() {
   // stringToApi();
   // listToApi();
-  mapToApi();
+  // mapToApi();
+  intToApi();
+}
+
+void intToApi() {
+  print(1.axc.toString());
+  print(1.toString());
+
+  num i = 10;
+  i.axc.limitThan(min: 1, max: 2);
+
+  10.0.axc.limitThan(min: 1, max: 2);
+
+  print(10.axc.limitThan(min: 10)); // 10
 }
 
 void mapToApi() {

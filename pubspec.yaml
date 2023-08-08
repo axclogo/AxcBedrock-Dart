@@ -1,7 +1,7 @@
 name: axc_bedrock
 description: 基础工具库，如同MC的基岩一般承载基础Api的调用
 version: 1.0.0
-homepage: https://github.com/axclogo/AxcBedrock-Flutter
+homepage: https://github.com/axclogo/AxcBedrock-Dart
 
 environment:
   sdk: '>=3.0.0-0 <4.0.0'

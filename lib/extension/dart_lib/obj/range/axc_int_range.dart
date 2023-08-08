@@ -1,4 +1,4 @@
-import 'axc_range.dart';
+part of axc_bedrock;
 
 class AxcIntRange extends AxcRange<int> {
   AxcIntRange(this.start, this.endInclusive);
@@ -10,7 +10,7 @@ class AxcIntRange extends AxcRange<int> {
   final int start;
 
   @override
-  bool contains(covariant num value) {
+  bool isContains(covariant num value) {
     if (start <= endInclusive) {
       return start <= value && value <= endInclusive;
     } else {

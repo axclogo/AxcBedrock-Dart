@@ -1,3 +1,5 @@
+part of axc_bedrock;
+
 abstract class AxcRange<T extends Comparable> {
   const AxcRange();
 
@@ -9,7 +11,7 @@ abstract class AxcRange<T extends Comparable> {
 
   /// 检查指定的[value]是否在范围内，等于
   /// [start]或[endInclusive]或介于两者之间
-  bool contains(T value) {
+  bool isContains(T value) {
     if (start.compareTo(endInclusive) <= 0) {
       return start.compareTo(value) <= 0 && value.compareTo(endInclusive) <= 0;
     } else {
@@ -19,7 +21,9 @@ abstract class AxcRange<T extends Comparable> {
 
   /// 主要用于输出dayin
   @override
-  String toString() => '$start..$endInclusive';
+  String toString() {
+    return '$start..$endInclusive';
+  }
 
   /// 比较操作符
   @override
@@ -33,5 +37,7 @@ abstract class AxcRange<T extends Comparable> {
 
   /// 唯一值
   @override
-  int get hashCode => start.hashCode ^ endInclusive.hashCode;
+  int get hashCode {
+    return start.hashCode ^ endInclusive.hashCode;
+  }
 }
