@@ -1,0 +1,53 @@
+name: CI
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  dart:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/axc_bedrock
+    strategy:
+      matrix:
+        sdk: ['3.3.4', stable]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed lib test example tool
+      - run: dart analyze --fatal-infos
+      - run: dart test
+      - run: dart run tool/check_types.dart
+      - run: mkdir -p build && dart compile js tool/web_smoke.dart -o build/web_smoke.js
+      - run: node build/web_smoke.js
+      - run: dart pub publish --dry-run
+  flutter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['3.19.6', stable]
+    defaults:
+      run:
+        working-directory: packages/axc_bedrock_flutter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        if: matrix.version != 'stable'
+        with:
+          flutter-version: ${{ matrix.version }}
+          channel: stable
+      - uses: subosito/flutter-action@v2
+        if: matrix.version == 'stable'
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test example
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+      - run: flutter pub publish --dry-run

@@ -1,0 +1,4 @@
+# 本仓库开发时使用同级核心包；发布包不包含此文件。
+dependency_overrides:
+  axc_bedrock:
+    path: ../axc_bedrock

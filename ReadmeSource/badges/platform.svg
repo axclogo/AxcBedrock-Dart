@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="20" role="img" aria-label="SDK: Dart 3.3+ | Flutter 3.19+">
+  <title>SDK: Dart 3.3+ | Flutter 3.19+</title>
+  <linearGradient id="shade" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="clip"><rect width="220" height="20" rx="3"/></clipPath>
+  <g clip-path="url(#clip)">
+    <path fill="#555" d="M0 0h59v20H0z"/>
+    <path fill="#007ec6" d="M59 0h161v20H59z"/>
+    <path fill="url(#shade)" d="M0 0h220v20H0z"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11">
+    <text x="29.5" y="15" fill="#010101" fill-opacity=".3">SDK</text>
+    <text x="29.5" y="14">SDK</text>
+    <text x="139.5" y="15" fill="#010101" fill-opacity=".3">Dart 3.3+ | Flutter 3.19+</text>
+    <text x="139.5" y="14">Dart 3.3+ | Flutter 3.19+</text>
+  </g>
+</svg>

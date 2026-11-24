@@ -1,0 +1,15 @@
+name: axc_bedrock_flutter
+description: Flutter geometry, insets, colors and image helpers using the typed .axc namespaces of AxcBedrock.
+version: 2.0.0-dev.1
+repository: https://github.com/axclogo/AxcBedrock-Dart/tree/master/packages/axc_bedrock_flutter
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+dependencies:
+  axc_bedrock: ^2.0.0-dev.1
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^3.0.0
